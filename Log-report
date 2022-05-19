@@ -1,0 +1,39 @@
+import time
+
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+counter = 0
+
+
+class MyHandler(FileSystemEventHandler):
+
+    def on_modified(self,  event):
+    """ Função report de modificações """
+        print(f'Tipo do evento: {event.event_type} Diretório: {event.src_path}')
+
+    def on_created(self,  event):
+    """ Função report de criações no diretório """
+        print(f'Tipo do evento: {event.event_type} Diretório: {event.src_path}')
+
+    def on_deleted(self,  event):
+    """ Função report de delete """
+        print(f'Tipo do evento: {event.event_type} Diretório: {event.src_path}')
+
+    def on_moved(self, event):
+    """ Função report de movido """
+        print(f'Tipo do evento: {event.event_type} Diretório: {event.src_path}')
+
+
+if __name__ == "__main__":
+    event_handler = MyHandler()
+    observer = Observer()
+    observer.schedule(event_handler, path='C:\\Users\\Joe\\Desktop\\ooo', recursive=False)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+        observer.join()
