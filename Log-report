@@ -3,7 +3,6 @@ import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-counter = 0
 
 
 class MyHandler(FileSystemEventHandler):
@@ -11,6 +10,11 @@ class MyHandler(FileSystemEventHandler):
     def on_modified(self,  event):
     """ Função report de modificações """
         print(f'Tipo do evento: {event.event_type} Diretório: {event.src_path}')
+        time.sleep(1)
+        _, extensao = path.splitext(f'{event.src_path}')
+        print(extensao)
+        if extensao == '.txt':    # Entrará lista de ext substituindo '.txt' e output remodelado.
+            print('Arquivo do tipo .txt recebeu algum tipo de informação ou extensão trocada')
 
     def on_created(self,  event):
     """ Função report de criações no diretório """
